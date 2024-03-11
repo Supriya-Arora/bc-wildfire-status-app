@@ -1,8 +1,8 @@
-import { WildFireData } from "./components/WildFireData";
+import { WildFireData } from "./components/WildFire/WildFireData";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-10">
       <WildFireData />
     </main>
   );

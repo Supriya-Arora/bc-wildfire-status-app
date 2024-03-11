@@ -33,7 +33,8 @@ import {FireFeature,FireFeatureResponse,requestErrorState,requestPendingState,re
           params: {
             count,
             fireStatus: filter?.fireStatus,
-            fireCause: filter?.fireCause || "",
+            fireCause: filter?.fireCause,
+            geographicDescription: filter?.geographicDescription,
           },
         });
         setData(response.data.features);
