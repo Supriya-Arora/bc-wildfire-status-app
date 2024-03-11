@@ -1,21 +1,23 @@
 'use client';
 
 import {FireFeature,FireFeatureResponse,requestErrorState,requestPendingState,requestSuccessState,} from "../../types/types";
-  import { useState, useEffect, useMemo } from "react";
-  import { useGetApiRequestState } from "./useApiRequestState";
-  import axios from "axios";
+import { useState, useEffect, useMemo } from "react";
+import { useGetApiRequestState } from "./useApiRequestState";
+import axios from "axios";
+import { generateFilterOptions } from "@/types/util";
   
   /**
    * Hook for getting fire data from the api.
    * @param count amount of results to return
    */
-  export function useGetWildFireData(count: number) {
+  export function useGetWildFireData(count?: number) {
     const [data, setData] = useState<FireFeature[]>([]);
     const [optionsData, setOptionsData] = useState<FireFeature[]>([]);
     const [fireStatus, setFireStatus] = useState<string>("");
     const [fireCause, setFireCause] = useState<string>("");
     const [geographicDescription, setGeographicDescription] =
       useState<string>("");
+    const [csvData, setCsvData] = useState<string>("");
     const { requestState, setRequestState } = useGetApiRequestState();
   
     const getData = async (
@@ -46,23 +48,18 @@ import {FireFeature,FireFeatureResponse,requestErrorState,requestPendingState,re
     };
   
     const fireStatusOptions = useMemo(() => {
-      const fireStatuses = optionsData.map((fire) => fire.properties.FIRE_STATUS);
-      const uniqueFireStatuses = new Set(fireStatuses);
-      return Array.from(uniqueFireStatuses);
+      const uniqueFireStatuses = generateFilterOptions(optionsData, "FIRE_STATUS");
+      return uniqueFireStatuses;
     }, [optionsData]);
   
     const fireCauseOptions = useMemo(() => {
-      const fireCauses = optionsData.map((fire) => fire.properties.FIRE_CAUSE);
-      const uniqueFireCauses = new Set(fireCauses);
-      return Array.from(uniqueFireCauses);
+      const uniqueFireCauses = generateFilterOptions(optionsData, "FIRE_CAUSE");
+      return uniqueFireCauses;
     }, [optionsData]);
   
     const geographicDescriptionOptions = useMemo(() => {
-      const geographicDescription = optionsData.map(
-        (fire) => fire.properties.GEOGRAPHIC_DESCRIPTION
-      );
-      const uniqueFireCauses = new Set(geographicDescription);
-      return Array.from(uniqueFireCauses);
+      const uniqueGeographicDescriptions = generateFilterOptions(optionsData, "GEOGRAPHIC_DESCRIPTION");
+      return uniqueGeographicDescriptions;
     }, [optionsData]);
   
     const filterByFireStatus = (fireStatus: string) => {
@@ -79,6 +76,19 @@ import {FireFeature,FireFeatureResponse,requestErrorState,requestPendingState,re
       setGeographicDescription(geographicDescription);
       getData(false, { geographicDescription, fireStatus, fireCause });
     };
+
+    const handleDownload = async (data: FireFeature[]) => {
+      await axios
+         .post<{document: string}>("/api/fires", {
+           data,
+         })
+         .then((response) => {
+           setCsvData(response.data.document);
+         })
+         .catch((error) => {
+           console.log(error);
+         });
+     };
   
     useEffect(() => {
       getData(true);
@@ -86,6 +96,7 @@ import {FireFeature,FireFeatureResponse,requestErrorState,requestPendingState,re
   
     return {
       data,
+      csvData,
       requestState,
       fireStatusOptions,
       fireCauseOptions,
@@ -96,5 +107,6 @@ import {FireFeature,FireFeatureResponse,requestErrorState,requestPendingState,re
       filterByFireStatus,
       filterByFireCause,
       filterByGeographicDescription,
+      onDownload: handleDownload,
     };
   };

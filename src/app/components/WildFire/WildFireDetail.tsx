@@ -1,4 +1,4 @@
-import { FireFeature } from "@/lib/types";
+import { FireFeature } from "@/types/types";
 import { type } from "os";
 
 type Props = {

@@ -15,16 +15,18 @@ type Props = {
   export const Filter = ({ selectedOption, options, label, onChange }: Props) => {
     return (
       <span className="mr-[1rem]">
-        <label className="mr-1">{label}</label>
+        <label className="mr-20">{label}</label>
         <select
           className="max-w-[10rem] p-2 rounded-md text-black"
           onChange={(e) => onChange(e.target.value)}
           value={selectedOption}
         >
           <option value="">All</option>
-          {options.map((option) => (
-            <option value={option}>{option}</option>
-          ))}
+          {options.map((option, index) => (
+          <option key={`${selectedOption}-option-${index}`} value={option}>
+            {option}
+          </option>
+        ))}
         </select>
       </span>
     );
