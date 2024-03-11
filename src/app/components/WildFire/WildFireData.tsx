@@ -23,7 +23,7 @@ export const WildFireData = () => {
     geographicDescriptionOptions,
     filterByGeographicDescription,
     onDownload,
-  } = useGetWildFireData(100);
+  } = useGetWildFireData();
 
   const csvInstance = useRef<any>();
 
