@@ -1,10 +1,17 @@
+'use client';
+
+import { useGetWildFireData } from "../hooks/useGetWildFireData";
 /**
  * Renders the WildFire data.
  */
 export const WildFireData = () => {
-    return (
-      <div>
-        <h1>WildFire Data</h1>
-      </div>
-    );
-  };
+  const {
+    data,
+  } = useGetWildFireData(100);
+  return (
+    <div>
+      <h1>WildFire Data</h1>
+      {data.map((wildFire) => (<p>{wildFire.properties.GEOGRAPHIC_DESCRIPTION}</p>))}
+    </div>
+  );
+};
