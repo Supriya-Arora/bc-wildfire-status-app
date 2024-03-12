@@ -3,7 +3,7 @@
 import { useGetWildFireData } from "@/app/hooks/useGetWildFireData";
 import { Filter } from "@/app/components/Filter/Filter";
 import WildfireDetails from "./WildFireDetail";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { CsvDownload } from "../CsvDownload/CsvDownload";
 /**
  * Renders the WildFire data.
@@ -26,17 +26,16 @@ export const WildFireData = () => {
   } = useGetWildFireData();
 
   const csvInstance = useRef<any>();
-
-  const createCsvDownload = (csvData: string) => {
+  useEffect(() => {
     if (
-        csvData &&
-        csvInstance &&
-        csvInstance.current &&
-        csvInstance.current.link
-      ) {
-        csvInstance.current.link.click();
-      }
-  }
+      csvData &&
+      csvInstance &&
+      csvInstance.current &&
+      csvInstance.current.link
+    ) {
+      csvInstance.current.link.click();
+    }
+  }, [csvData]);
 
   return (
     <div className="flex min-h-screen flex-col p-10 max-w-full">
