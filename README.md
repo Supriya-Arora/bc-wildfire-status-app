@@ -1,5 +1,5 @@
 # bc-wildfire-status-app
-B.C. experiences 1,600 wildfires per year, on average. IIt is important to be prepared, especially if living in an area prone to wildfire. This application will help the residents of BC to monitor the status of these wildfires and act accordingly.
+B.C. experiences 1,600 wildfires per year, on average. It is important to be prepared, especially if living in an area prone to wildfire. This application will help the residents of BC to monitor the status of these wildfires and act accordingly.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
